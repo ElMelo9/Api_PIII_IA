@@ -38,15 +38,20 @@ def login():
     # Llama a la función create_role para crear el rol en Supabase
     
     if auth.validate_credentials(email,password):
+        userData = crud.get_userByEmail(email)
+        print(userData)
+        dicUserData=userData[0]
+        rol=dicUserData['id_rol']
+        fullName=(dicUserData['name_user'],dicUserData['last_name_user'])
         info = {
-    'email': email,
+        'fullName': fullName,
+        'rol': rol,       
+        'email': email,
         'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=1800)  # Vence en 30 minutos
     }
-        # Si las credenciales son válidas, genera un token JWT
+       # Si las credenciales son válidas, genera un token JWT
         token = jwt.encode(info,secret_key, algorithm='HS256')
-        userData = crud.get_userByEmail(email)
-        resultado = {'token': token, 'user_data': userData}
-        return jsonify(resultado), 201
+        return jsonify({'token': token}), 201
     else:
         return jsonify({'mensaje': 'Credenciales incorrectas'}), 401
 
