@@ -63,6 +63,6 @@ class NeuralPredictor:
     def get_prediction_text(self, y_pred):
         water_pollution_text = "Sin contaminación" if y_pred[0][0] < 0.5 else "Con contaminación"
         air_quality_text = "Mala" if y_pred[0][1] < 0.5 else "Buena"
-        return {"Contaminación del agua": water_pollution_text, "Calidad del aire": air_quality_text}, 201
+        return {"water_pollution": water_pollution_text, "air_quality": air_quality_text}, 201
 
 
